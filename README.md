@@ -3,5 +3,5 @@ This is a simple script to update DNS-records hosted by [netcup](https://netcup.
 
 ## Dependencies
 - luasocket
-- lua-cjson
 - luasec
+- luci-lib-jsonc (a lightweight alternative to lua-cjson)
