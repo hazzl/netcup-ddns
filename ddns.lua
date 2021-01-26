@@ -4,7 +4,7 @@ local CUSTOMERNO = 12345
 local APIKEY = "APIKEY_AS_CREATED_IN_CCP"
 local APIPASSWD = "APIPASSWD_AS_CREATED_IN_CCP"
 ---------------------------------------------------------
-local cjson = require "cjson"
+local cjson = require "luci.jsonc"
 local https = require "ssl.https"
 local ltn12 = require "ltn12"
 local socket = require "socket"
@@ -19,7 +19,7 @@ local function send_command(coms,ids)
 	if (ids) then
 		coms.param.apisessionid = ids 
 	end
-	postbod = cjson.encode(coms)
+	postbod = cjson.stringify(coms)
 	post = { 
 		method = "POST",
 		url = "https://ccp.netcup.net/run/webservice/servers/endpoint.php?JSON",
@@ -29,7 +29,7 @@ local function send_command(coms,ids)
 		source = ltn12.source.string(postbod),
 		sink = ltn12.sink.table(resbod)}
 	https.request(post)
-	return cjson.decode(table.concat(resbod))
+	return cjson.parse(table.concat(resbod))
 end
 
 local function clear()
