@@ -48,8 +48,10 @@ response = socket.dns.toip(DOMAIN)
 if ip4 == response then 
 	return
 end
-print ("Change detected! updating database")
-
+local logfile=io.open("ddns.log","a")
+io.output(logfile)
+io.write(os.date() .. " new IP " .. ip4 .. "\n")
+	
 com = clear()
 com.action = "login"
 com.param.apipassword = APIPASSWD
@@ -82,3 +84,4 @@ end
 com = clear()
 com.action = "logout"
 response = send_command(com,id)
+io.close(logfile)
