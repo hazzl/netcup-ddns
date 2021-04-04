@@ -43,6 +43,9 @@ local com, id, response, ip4, modified
 response = {}
 http.request{url = "http://v4.ident.me", sink = ltn12.sink.table(response)}
 ip4=table.concat(response)
+if ip4 == "" then -- something went terribly wrong. Give up.
+	return
+end
 
 response = socket.dns.toip(DOMAIN)
 if ip4 == response then 
